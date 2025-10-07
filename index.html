@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Unity WebGL Player | bio-cell-activities-vr</title>
-    <meta name="description" content="">
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
   </head>
   <body>
     <div id="unity-container">
@@ -21,19 +20,23 @@
       </div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
-        <button id="entervr" value="Enter VR" disabled>VR</button>
-        <button id="enterar" value="Enter AR" disabled>AR</button>
-        <div id="unity-webxr-link">Using <a href="https://github.com/De-Panther/unity-webxr-export" target="_blank" title="WebXR Export">WebXR Export</a></div>
+        <button id="entervr" disabled>VR</button>
+        <button id="enterar" disabled>AR</button>
+        <div id="unity-webxr-link">
+          Using
+          <a href="https://github.com/De-Panther/unity-webxr-export" target="_blank" title="WebXR Export">WebXR Export</a>
+        </div>
         <div id="unity-build-title">bio-cell-activities-vr</div>
       </div>
     </div>
+
     <script>
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/Bio-VR-final-build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/Bio-VR-final-build.data.gz",
-        frameworkUrl: buildUrl + "/Bio-VR-final-build.framework.js.gz",
-        codeUrl: buildUrl + "/Bio-VR-final-build.wasm.gz",
+        dataUrl: buildUrl + "/Bio-VR-final-build.data",
+        frameworkUrl: buildUrl + "/Bio-VR-final-build.framework.js",
+        codeUrl: buildUrl + "/Bio-VR-final-build.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "bio-cell-activities-vr",
@@ -47,7 +50,6 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var unityInstance = null;
-      
 
       canvasContainer.style.width = "960px";
       canvasContainer.style.height = "600px";
@@ -58,37 +60,54 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-        }).then((instance) => {
-          unityInstance = instance;
-          loadingBar.style.display = "none";
-          if (fullscreenButton)
-          {
-            fullscreenButton.onclick = () => {
-              unityInstance.SetFullscreen(1);
-            };
-          }
-        }).catch((message) => {
-          alert(message);
-        });
+        })
+          .then((instance) => {
+            unityInstance = instance;
+            loadingBar.style.display = "none";
+            if (fullscreenButton) {
+              fullscreenButton.onclick = () => {
+                unityInstance.SetFullscreen(1);
+              };
+            }
+          })
+          .catch((message) => {
+            alert(message);
+          });
       };
       document.body.appendChild(script);
 
-      let enterARButton = document.getElementById('enterar');
-      let enterVRButton = document.getElementById('entervr');
+      let enterARButton = document.getElementById("enterar");
+      let enterVRButton = document.getElementById("entervr");
 
-      document.addEventListener('onARSupportedCheck', function (event) {
-        enterARButton.disabled = !event.detail.supported;
-      }, false);
-      document.addEventListener('onVRSupportedCheck', function (event) {
-        enterVRButton.disabled = !event.detail.supported;
-      }, false);
+      document.addEventListener(
+        "onARSupportedCheck",
+        function (event) {
+          enterARButton.disabled = !event.detail.supported;
+        },
+        false
+      );
+      document.addEventListener(
+        "onVRSupportedCheck",
+        function (event) {
+          enterVRButton.disabled = !event.detail.supported;
+        },
+        false
+      );
 
-      enterARButton.addEventListener('click', function (event) {
-        unityInstance.Module.WebXR.toggleAR();
-      }, false);
-      enterVRButton.addEventListener('click', function (event) {
-        unityInstance.Module.WebXR.toggleVR();
-      }, false);
+      enterARButton.addEventListener(
+        "click",
+        function (event) {
+          unityInstance.Module.WebXR.toggleAR();
+        },
+        false
+      );
+      enterVRButton.addEventListener(
+        "click",
+        function (event) {
+          unityInstance.Module.WebXR.toggleVR();
+        },
+        false
+      );
     </script>
   </body>
 </html>
